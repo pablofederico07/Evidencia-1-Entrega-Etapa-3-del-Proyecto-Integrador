@@ -1,0 +1,180 @@
+
+def main():
+  
+  empleados = []
+
+  def alta_empleado():
+
+        datos_requeridos = ["Teclea el id del empleado: ","Teclea el nombre del empleado: ", "Teclea edad del empleado: ", "Teclea el peso (Kg.): ", "Teclea la estatura (Mts.): ", "Diabetes 1-Si 0-No?: ", "Hipertensión 1-Si 0-No?: ", "Enfermedad corazón 1-Si 0-No?: ", "Cáncer 1-Si 0-No?: ", "Tabaquismo 1-Si 0-No?: ", "Vacuna Covid-19 1-Si 0-No?: ", "Teclea el número de departamento: "]
+        datos_empleado = []
+        
+        for c in range(len(datos_requeridos)):
+          datos_empleado.append(input(datos_requeridos[c]))
+      
+        empleados.append(datos_empleado)
+       # datos_empleado = ",".join(datos_empleado)   
+        print(empleados)
+
+  def calcular_imc():
+    
+    delgadez_severa = 0
+    delgadez_moderada = 0
+    delgadez_aceptable = 0
+    peso_normal = 0
+    sobrepeso = 0
+    
+    
+    for empleado in empleados:
+
+      imc = (float(empleado[3])) / (float(empleado[4]) ** 2)
+      print("El imc es de: ", imc)
+      resultado_imc = 0
+
+      if imc < 18.50:
+        if imc < 16.00:
+          print("Tienes delgadez severa")
+          resultado_imc = resultado_imc + 1
+          delgadez_severa = delgadez_severa + 1
+        elif imc <= 16.99 and imc >= 16.00:
+          print("Tienes delgadez moderada")
+          resultado_imc = resultado_imc + 1
+          delgadez_moderada = delgadez_moderada + 1
+        elif imc <= 17.00 and imc >= 18.49:
+          print("Tienes delgadez aceptable")
+          resultado_imc = resultado_imc + 1
+          delgadez_aceptable = delgadez_aceptable + 1
+      elif imc >= 18.50 and imc <= 24.99:
+          print("Tienes peso normal")
+          resultado_imc = resultado_imc + 1
+          peso_normal = peso_normal + 1
+      elif imc >= 25:
+          print("Tienes sobrepeso")
+          resultado_imc = resultado_imc + 1
+          sobrepeso = sobrepeso + 1
+      imc = round(imc, 2)
+      #porcentaje = 
+
+
+      
+
+
+    
+  def actualizar_empleado():
+    id = input("Teclea el id del empleado para modificar sus datos: ")
+    encontrado = False
+    for empleado in empleados:
+      if id == empleado[0]:
+        
+        datos_requeridos = ["Teclea el nombre del empleado: ", "Teclea edad del empleado: ", "Teclea el peso (Kg.): ", "Teclea la estatura (Mts.): ", "Diabetes 1-Si 0-No?: ", "Hipertensión 1-Si 0-No?: ", "Enfermedad corazón 1-Si 0-No?: ", "Cáncer 1-Si 0-No?: ", "Tabaquismo 1-Si 0-No?: ", "Vacuna Covid-19 1-Si 0-No?: ", "Teclea el número de departamento: "]
+        for dato in range(len(datos_requeridos)):
+          empleado[dato + 1] = input(datos_requeridos[dato])         
+        encontrado = True
+        break
+    
+    if encontrado == False:
+      print("No se encontró el empleado")
+
+  def consultar_empleado():
+    
+    id = input("Teclea el id del empleado a consultar: ")
+    #for id in range(len(empleados[0])):
+      #print(empleados)
+    encontrado = False
+    for n in range(len(empleados)):
+     if id == empleados[n][0]:
+      print(empleados[n])
+      encontrado = True
+      break
+    if encontrado == False:
+      print("No existe el empleado")
+      
+  def crear_reporte_empleados():
+    contador_enfermedades = [0, 0, 0, 0, 0, 0]
+    enfermedad = ["Diabetes", "Hipertensión", "Corazón", "Cáncer", "Tabaquismo", "Vacuna Covid"]
+
+
+    for empleado in empleados:
+
+      id, nombre, edad, peso, altura, diabetes, hipertension, corazon, cancer, tabaquismo, vacuna_covid = empleado
+
+      if diabetes == "1":
+        contador_enfermedades[0] += 1
+      if hipertension == "1":
+        contador_enfermedades[1] += 1
+      if corazon == "1":
+        contador_enfermedades[2] += 1
+      if cancer == "1":
+        contador_enfermedades[3] += 1
+      if tabaquismo == "1":
+        contador_enfermedades[4] += 1
+      if vacuna_covid == "1":
+        contador_enfermedades[5] += 1
+
+      print(f'{id:<10}{nombre:<15}{peso:<10}{altura:<10}{"Diabetes" if diabetes == "1" else "____________":15}{"Hipertensión" if hipertension == "1" else "____________":17}{"Corazón" if corazon == "1" else "____________":15}{"Cáncer" if cancer == "1" else "____________":15}{"Tabaquismo" if tabaquismo == "1" else "____________":15}{"Vacunado" if vacuna_covid == "1" else "____________":15}')
+    
+    print(f'\n{"Enfermedad":27}{"Cantidad":10}{"Porcentaje":<10}')
+
+    lista = []
+    for num in range(len(contador_enfermedades)):
+      lista_temp = []
+      lista_temp = [contador_enfermedades[num], enfermedad[num], round(contador_enfermedades[num] / len(empleados) * 100)]
+      lista.append(lista_temp)
+  
+    lista.sort(reverse = True)
+
+    for dato in lista:
+      contador, enfermedad, porcentaje = dato
+      print(f"{enfermedad:20} {contador:7} {porcentaje:10}%")
+
+    print(f'{"Total de empleados:":<10} {len(empleados):<10}')
+
+  def salir():
+      print("Esperamos que el programa le haya sido útil. Muchas gracias.")
+      sigue = False 
+      return sigue
+  def menu():
+    
+    opciones=["1. Alta de empleado", "2. Calcular imc de empleados", "3. Cambia información del empleado", "4. Consulta un empleado", "5. Reporte de todos los empleados","6. Salir"]
+
+    print("Sistema de Salud y Bienestar del Empleado")
+    
+    for a in range(len(opciones)):
+        print(opciones[a])
+    print(" ")
+    num = int(input("Teclea la opción: "))
+    print(" ")
+    while num != 6:
+
+        if num == 1:
+            alta_empleado()
+        
+        elif num == 2:
+            calcular_imc()
+        elif num == 3:
+            actualizar_empleado()
+        elif num == 4:
+            consultar_empleado()
+        elif num == 5:
+            crear_reporte_empleados()
+       
+
+        elif num != 1 and num != 2 and num != 3 and num != 4 and num != 5:
+
+          contador = 1
+          for b in range(1, len(opciones)):
+              if str(num) in opciones[b]:
+                  print(opciones[b])
+                  break
+              contador= contador + 1
+              if contador == len(opciones):
+                  print("Opción incorrecta")
+        for opcion in opciones:
+          print(opcion)
+        print(" ")
+        num = int(input("Teclea la opción: "))
+        print(" ")
+    else:
+          sigue = salir()   
+
+  menu()
+main()
